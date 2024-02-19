@@ -3,21 +3,12 @@ namespace yachat;
 
 class YaChat{
     protected const CLIENT_AUTH = "<AUTH TOKEN>";
-	protected const X_FOLDER_ID = "<FOLDER ID>";
+    protected const X_FOLDER_ID = "<FOLDER ID>";
 
     protected static $instance; 
     private static $token = false;
     private static $tokenExp = false;
     private static $messages = [];
-
-    private function __construct(){
-    }
-
-    private function __clone(){
-    }
-
-    public function __wakeup(){
-    }
 
     public static function getInstance(){
         if (is_null(self::$instance)) {
@@ -60,18 +51,18 @@ class YaChat{
        $now = time()-3600;       
        if(!self::$token || !self::$tokenExp || self::$tokenExp < $now || $force === true){
           $url = "https://iam.api.cloud.yandex.net/iam/v1/tokens";
-		  $data = '{"yandexPassportOauthToken":"'.CLIENT_AUTH.'"}';
+	  $data = '{"yandexPassportOauthToken":"'.self::CLIENT_AUTH.'"}';
           $headers = [
-             'Content-Type: application/json',
-			 'Content-Length: '.strlen($data)
+             	'Content-Type: application/json',
+		'Content-Length: '.strlen($data)
           ];
           $result = self::get($url, $headers, $data);
           
           if(!empty($result["iamToken"])){
              self::$token = $result["iamToken"];
-			 file_put_contents('token_ya.txt', self::$token);
+	     file_put_contents('token_ya.txt', self::$token);
              self::$tokenExp = strtotime($result["expiresAt"]);
-			 file_put_contents('token_ya_ext.txt', self::$tokenExp);		 
+	     file_put_contents('token_ya_ext.txt', self::$tokenExp);		 
           }else{
              self::$token = false;
              file_put_contents('token_ya.txt', '');
@@ -90,9 +81,9 @@ class YaChat{
           if($tok){
             $url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion";
             $headers = [
-				'Content-Type: application/json',
+		'Content-Type: application/json',
                 'Authorization: Bearer ' .$tok,  
-				'x-folder-id: '.X_FOLDER_ID
+		'x-folder-id: '.self::X_FOLDER_ID
             ];
 			$messages = self::$messages;
             $messages[] = [
@@ -100,25 +91,25 @@ class YaChat{
                 "text"=> $question
             ];
             $data = [
-                "modelUri" => "gpt://".X_FOLDER_ID."/yandexgpt-lite/latest",
-				"completionOptions" => [
-					"stream" => false,
-					"temperature" => $temperature,
-					"max_tokens" => 2000,
-				],
-				"messages" => $messages
+                "modelUri" => "gpt://".self::X_FOLDER_ID."/yandexgpt-lite/latest",
+		"completionOptions" => [
+			"stream" => false,
+			"temperature" => $temperature,
+			"max_tokens" => 2000,
+		],
+		"messages" => $messages
              ];
             $result = self::get($url, $headers, json_encode($data));            
             
             $answer = $result['result']['alternatives'][0]['message']['text'];
 			
             if(!empty($answer)){
-				$messages[] = [
-					"role" => "assistant",
-					"text"=> $answer
-				];
+		$messages[] = [
+			"role" => "assistant",
+			"text"=> $answer
+		];
 
-				self::$messages = $messages;
+		self::$messages = $messages;
             }
           }
        }   
