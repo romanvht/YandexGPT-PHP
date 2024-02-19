@@ -48,7 +48,7 @@ class YaChat{
    }
 
     public static function getToken($force = false){       
-       $now = time()-3600;       
+       $now = time()-300;       
        if(!self::$token || !self::$tokenExp || self::$tokenExp < $now || $force === true){
           $url = "https://iam.api.cloud.yandex.net/iam/v1/tokens";
 	  $data = '{"yandexPassportOauthToken":"'.self::CLIENT_AUTH.'"}';
