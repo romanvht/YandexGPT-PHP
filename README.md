@@ -10,6 +10,6 @@ require __DIR__ . '/yachat.php';
 use yachat\YaChat;
 
 $ya = yachat::getInstance();
-echo $ya::ask('Привет');
+echo $ya::answer('Привет');
 ```
 
