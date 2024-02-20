@@ -1,4 +1,4 @@
-# Yandex-GPT-PHP
+# Kandinsky-PHP
 Класс для генерации изображений с помощью Kandinsky 3 в PHP
 
 Получите ключи по инструкции https://fusionbrain.ai/docs/doc/api-dokumentaciya/ и вставьте их в скрипт 
