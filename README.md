@@ -1,15 +1,14 @@
 # Yandex-GPT-PHP
-Класс для общения с Yandex GPT в PHP
+Класс для генерации изображений с помощью Kandinsky 3 в PHP
 
-1. Получите OAuth токен Яндекса и вставьте его в CLIENT_AUTH скрипта ([https://cloud.yandex.ru/ru/docs/iam/operations/iam-token/create](https://cloud.yandex.ru/ru/docs/iam/operations/iam-token/create#api_1))
-2. Получите идентификатор каталога, на который у вашего аккаунта есть роль ai.languageModels.user или выше и вставьте его в X_FOLDER_ID скрипта (https://cloud.yandex.ru/ru/docs/resource-manager/operations/folder/get-id#console_1)
+Получите ключи по инструкции https://fusionbrain.ai/docs/doc/api-dokumentaciya/ и вставьте их в скрипт 
    
 Использование:
 ```
-require __DIR__ . '/yachat.php';
-use yachat\YaChat;
+require __DIR__ . '/kandinsky.php';
+use kandinsky\imageGen;
 
-$ya = yachat::getInstance();
-echo $ya::answer('Привет');
+$kd = imageGen::getInstance();
+print_r($kd::promt('Зеленый кот'));
 ```
 
