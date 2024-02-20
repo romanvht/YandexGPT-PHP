@@ -47,9 +47,8 @@ class YaChat{
         return json_decode($result,true);
    }
 
-    public static function getToken($force = false){       
-       $now = time()-300;       
-       if(!self::$token || !self::$tokenExp || self::$tokenExp > $now || $force === true){
+    public static function getToken($force = false){           
+       if(!self::$token || !self::$tokenExp || self::$tokenExp < time() || $force === true){
           $url = "https://iam.api.cloud.yandex.net/iam/v1/tokens";
 	  $data = '{"yandexPassportOauthToken":"'.self::CLIENT_AUTH.'"}';
           $headers = [
@@ -73,7 +72,7 @@ class YaChat{
        return self::$token;
     }
 
-    public static function ask($question, $temperature = 0.6){
+    public static function answer($question, $temperature = 0.6){
        $answer = "";
        if(!empty($question)){
           $tok = self::getToken();          
