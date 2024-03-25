@@ -7,9 +7,10 @@
 Использование:
 ```
 require __DIR__ . '/yachat.php';
-use yachat\YaChat;
+use neiro\YaChat;
 
-$ya = yachat::getInstance();
-echo $ya::answer('Привет');
+if($ya = yachat::getInstance()){
+   echo $ya::answer('Привет');
+}
 ```
 
